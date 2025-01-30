@@ -4,16 +4,21 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.net.ssl.SSLServerSocket;
+
 public class TCPServer {
     private int port;;
 
     public TCPServer(int port) {
         this.port = port;
     }
+
     public void start() {
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
+            SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(port);
             System.out.println("Server started on port " + port);
+
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected from " + clientSocket.getInetAddress());
